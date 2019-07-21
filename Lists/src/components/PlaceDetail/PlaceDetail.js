@@ -1,6 +1,7 @@
 import React from 'react'
 import { Modal, View, Image, Text, Button, StyleSheet } from 'react-native';
 const PlaceDetail = (props) => {
+    console.log("PROPS PARA EL MODAL")
     console.log(props)
     console.log(props.selectedPlace !== null)
     let modalContent = null;
