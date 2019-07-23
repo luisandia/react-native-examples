@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import PlaceList from './src/components/PlaceList/PlaceList';
 import placeImage from './src/assets/197830.jpg';
-import PlaceDetail from './src/components/PlaceDetail/PlaceDetail';
+import PlaceDetail from './src/screens/PlaceDetail/PlaceDetail';
 import { connect } from 'react-redux';
 import { addPlace, deletePlace, selectPlace, deselectPlace } from './src/store/actions/index';
 import configureStore from './src/store/configureStore';

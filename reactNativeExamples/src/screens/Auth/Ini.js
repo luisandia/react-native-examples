@@ -10,6 +10,9 @@ import {
 import { createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
 import AuthScreen from './Auth';
 import MainTabs from '../MainTabs/MainTabs';
+import PlaceDetailScreen from '../PlaceDetail/PlaceDetail';
+import placeList from '../../components/PlaceList/PlaceList';
+import { FindPlace } from '../FindPlace/FindPlace';
 
 
 
@@ -117,6 +120,8 @@ const styles = StyleSheet.create({
 
 const AppStack = createStackNavigator({ Home: HomeScreen, Other: OtherScreen });
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
+const DetailStack = createStackNavigator({ Home: FindPlace, PlaceDetail: PlaceDetailScreen });
+const DetailStack2 = createStackNavigator({ Home: MainTabs, PlaceDetail: PlaceDetailScreen });
 
 export default createAppContainer(createSwitchNavigator(
   {
@@ -124,9 +129,11 @@ export default createAppContainer(createSwitchNavigator(
     Login: AuthScreen,
     App: AppStack,
     Auth: AuthStack,
-    LoggedIn: {
-      screen: MainTabs
-    },
+    PlaceDetail: { screen: PlaceDetailScreen,
+    title: 'Find List',
+  },
+  // DetailScreen:DetailStack2,
+  LoggedIn: MainTabs
   },
   {
     // initialRouteName: 'AuthLoading',

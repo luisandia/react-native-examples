@@ -3,7 +3,8 @@ import { FlatList } from 'react-native';
 import ListItem from '../ListItem/ListItem';
 
 const placeList = (props) => {
-
+    console.log("imprimiendo lista placelist")
+    console.log(props)
     return (
         <FlatList
             data={props.places}
