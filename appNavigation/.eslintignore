@@ -1,0 +1,14 @@
+modified_Modules/*
+node_modules/*
+ios/*
+android/*
+src/assets/*
+.eslintignore
+package.json
+package-lock.json
+yarn.lock
+index.js
+app.json
+credentials
+*.keystore
+src/lib
