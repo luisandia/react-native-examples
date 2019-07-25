@@ -1,14 +1,11 @@
 import React from 'react';
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation'
+import { createBottomTabNavigator, createStackNavigator,createDrawerNavigator } from 'react-navigation'
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import SharePlace from '../SharePlace/SharePlace';
 import FindPlace from '../FindPlace/FindPlace';
 import PlaceDetail from '../PlaceDetail/PlaceDetail';
 import NavigationDrawerStructure from '../../components/Header/NavigationDrawerStructure';
-import {
-    createDrawerNavigator,
-} from 'react-navigation';
 
 
 

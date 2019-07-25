@@ -1,11 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, View, TextInput, Button } from 'react-native';
 import PlaceList from './src/components/PlaceList/PlaceList';
-import placeImage from './src/assets/197830.jpg';
 import PlaceDetail from './src/components/PlaceDetail/PlaceDetail';
 import { connect } from 'react-redux';
 import { addPlace, deletePlace, selectPlace, deselectPlace } from './src/store/actions/index';
-import configureStore from './src/store/configureStore';
 
 class App extends React.Component {
 
@@ -19,7 +17,7 @@ class App extends React.Component {
         })
     }
 
-    placeSubmitHandler = val => {
+    placeSubmitHandler = () => {
         // if (this.state.placeName.trim() === '') {
         //   return;
         // }
@@ -37,7 +35,7 @@ class App extends React.Component {
         this.props.onAddPlace(this.state.placeName);
     }
 
-    placeDeleteHandler = key => {
+    placeDeleteHandler = () => {
         // this.setState(prevState => {
         //   console.log(prevState.places)
         //   return {
