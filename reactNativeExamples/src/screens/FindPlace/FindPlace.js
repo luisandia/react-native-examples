@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { connect } from 'react-redux';
 import PlaceList from '../../components/PlaceList/PlaceList';
 import PlaceDetail from '../PlaceDetail/PlaceDetail';
@@ -10,7 +10,13 @@ export class FindPlace extends Component {
     static navigationOptions = {
         title: 'Find List',
     };
-    
+
+    state = {
+        placesLoaded: false,
+        removeAnim: new Animated.Value(1),
+        placesAnim: new Animated.Value(0)
+    }
+
     placeSelectedHandler = (key) => {
         // this.setState(prevState => (
         //   { selectedPlace: prevState.places.find(place => place.key === key) }
@@ -52,27 +58,94 @@ export class FindPlace extends Component {
         this.props.onDeletePlace();
     }
 
+    placesSearchHandler = () => {
+        Animated.timing(this.state.removeAnim, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true
+        }).start(() => {
+            this.setState({
+                placesLoaded: true
+            })
+        })
+
+        this.placesLoadedHandler();
+    }
+    placesLoadedHandler = () => {
+        Animated.timing(this.state.placesAnim, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true
+        }).start()
+    }
+
     render() {
         console.log("mis props findplace render")
         console.log(this.props)
+
+        let content = (
+            <Animated.View style={
+                {
+                    opacity: this.state.removeAnim,
+                    transform: [
+                        {
+                            scale: this.state.removeAnim.interpolate({ inputRange: [0, 1], outputRange: [12, 1] })
+                        }
+                    ]
+                }}>
+                <TouchableOpacity onPress={this.placesSearchHandler}>
+                    <View style={styles.searchButton}>
+                        <Text style={styles.searchButtonText}>Find Places</Text>
+                    </View>
+                </TouchableOpacity>
+            </Animated.View>
+        );
+
+        if (this.state.placesLoaded) {
+            content = (
+                <Animated.View style={{
+                    opacity: this.state.placesAnim
+                }}>
+                    <PlaceList places={this.props.places}
+                        onItemSelected={this.placeSelectedHandler}
+                    />
+                </Animated.View>
+            )
+        }
+
         return (
-            <View>
+            <View style={this.state.placesLoaded ? null : styles.buttonContainer}>
                 {/* <PlaceDetail
                     selectedPlace={this.props.selectedPlace}
                     onItemDeleted={this.placeDeleteHandler}
                     onModalClosed={this.modalCloseHandler} /> */}
-
-                <PlaceList places={this.props.places}
-                    onItemSelected={this.placeSelectedHandler}
-
-                />
+                {content}
             </View>
         )
     }
 }
 
+const styles = StyleSheet.create({
+    buttonContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    searchButton: {
+        borderColor: "orange",
+        borderWidth: 3,
+        borderRadius: 50,
+        padding: 20
+    },
+    searchButtonText: {
+        color: "orange",
+        fontWeight: "bold",
+        fontSize: 26
+    }
+})
 
-const mapStateToProps = (state,props) => {
+
+const mapStateToProps = (state, props) => {
     console.log("actualizacion!!!FINDPLACES")
     console.log(state.places)
     // if(state.places.selectPlace!=null)
