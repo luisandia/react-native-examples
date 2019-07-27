@@ -18,7 +18,8 @@ const reducer = (state = initialState, action) => {
                 {
                     key: Math.floor(Math.random() * 10000).toString(),
                     value: action.placeName,
-                    image: { uri: "http://lorempixel.com/400/200/food/" },
+                    image: { uri: action.image.uri,base64:action.image.base64 },
+                    location: action.location
                 }]
             }
         }

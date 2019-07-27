@@ -13,7 +13,17 @@ import PickLocation from '../../components/PickLocation/PickLocation';
 class SharePlace extends Component {
 
     state = {
-        placeName: ""
+        placeName: "",
+        controls: {
+            location: {
+                value: null,
+                valid: false
+            },
+            image: {
+                value: null,
+                valid: false
+            }
+        },
     }
 
     placeNameChangeHandler = val => {
@@ -23,12 +33,39 @@ class SharePlace extends Component {
     }
 
 
-
-
-    placeAddedHandler = () => {
-        if (this.state.placeName.trim() !== '')
-            this.props.onAddPlace(this.state.placeName);
+    locationPickedHandler = (location) => {
+        this.setState(prevState => {
+            return {
+                controls: {
+                    ...prevState.controls,
+                    location: {
+                        value: location,
+                        valid: true
+                    }
+                }
+            }
+        })
     }
+
+    imagePickedHandler = (image) => {
+        this.setState(prevstate => {
+            return {
+                controls: {
+                    ...prevstate.controls,
+                    image: {
+                        value: image,
+                        valid: true
+                    }
+                }
+            }
+        })
+    }
+    placeAddedHandler = () => {
+        if (this.state.placeName.trim() !== '') {
+            this.props.onAddPlace(this.state.placeName, this.state.controls.location.value, this.state.controls.image.value);
+        }
+    }
+
     render() {
         return (
             <ScrollView>
@@ -36,8 +73,8 @@ class SharePlace extends Component {
                     <MainText>
                         <HeadingText style={{ color: "black" }}>Share a place with us </HeadingText>
                     </MainText>
-                    <PickImage />
-                    <PickLocation />
+                    <PickImage onImagePicked={this.imagePickedHandler} />
+                    <PickLocation onLocationPick={this.locationPickedHandler} />
                     <PlaceInput placeName={this.state.placeName} onChangeText={this.placeNameChangeHandler} />
                     <View style={styles.button}>
                         <Button title="Share the place" onPress={this.placeAddedHandler} />
@@ -56,7 +93,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddPlace: (placeName) => dispatch(addPlace(placeName)),
+        onAddPlace: (placeName, my_location,image) => dispatch(addPlace(placeName, my_location,image)),
         // onDeletePlace: () => dispatch(deletePlace()),
         // onSelectPlace: (key) => dispatch(selectPlace(key)),
         // onDeselectPlace: () => dispatch(deselectPlace())
