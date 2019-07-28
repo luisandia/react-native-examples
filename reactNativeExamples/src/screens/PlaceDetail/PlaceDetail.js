@@ -11,6 +11,7 @@ class PlaceDetail extends React.Component {
         console.log("borrando")
         const { selectedPlace } = this.props.navigation.state.params;
         this.props.onDeletePlace(selectedPlace.key);
+        debugger;
         this.props.navigation.pop();
     }
     render() {
@@ -23,7 +24,7 @@ class PlaceDetail extends React.Component {
             modalContent = (
                 <View>
                     <Image source={props.selectedPlace.image} style={styles.placeImage} />
-                    <Text style={styles.placeName}> {props.selectedPlace.value}</Text>
+                    <Text style={styles.placeName}> {props.selectedPlace.name}</Text>
                 </View>
             )
         }

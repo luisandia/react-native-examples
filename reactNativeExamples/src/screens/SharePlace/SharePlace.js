@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView, Image, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import PlaceInput from '../../components/PlaceInput/PlaceInput';
 import { addPlace, deletePlace, selectPlace, deselectPlace } from '../../store/actions/index';
@@ -67,6 +67,12 @@ class SharePlace extends Component {
     }
 
     render() {
+        console.log(this.props)
+        let submitButton = <Button title="Share the place" onPress={this.placeAddedHandler} />;
+
+        if (this.props.isLoading) {
+            submitButton = <ActivityIndicator />
+        }
         return (
             <ScrollView>
                 <View style={styles.container}>
@@ -77,7 +83,7 @@ class SharePlace extends Component {
                     <PickLocation onLocationPick={this.locationPickedHandler} />
                     <PlaceInput placeName={this.state.placeName} onChangeText={this.placeNameChangeHandler} />
                     <View style={styles.button}>
-                        <Button title="Share the place" onPress={this.placeAddedHandler} />
+                        {submitButton}
                     </View>
                 </View>
             </ScrollView>
@@ -85,15 +91,13 @@ class SharePlace extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        ...state.places
-    }
+const mapStateToProps = ({ ui: isLoading }) => {
+    return isLoading
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddPlace: (placeName, my_location,image) => dispatch(addPlace(placeName, my_location,image)),
+        onAddPlace: (placeName, my_location, image) => dispatch(addPlace(placeName, my_location, image)),
         // onDeletePlace: () => dispatch(deletePlace()),
         // onSelectPlace: (key) => dispatch(selectPlace(key)),
         // onDeselectPlace: () => dispatch(deselectPlace())
@@ -121,4 +125,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default connect(null, mapDispatchToProps)(SharePlace);
+export default connect(mapStateToProps, mapDispatchToProps)(SharePlace);

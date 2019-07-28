@@ -132,12 +132,13 @@ export default createAppContainer(createSwitchNavigator(
     PlaceDetail: { screen: PlaceDetailScreen,
     title: 'Find List',
   },
+  stack2:DetailStack2,
   // DetailScreen:DetailStack2,
   LoggedIn: MainTabs
   },
   {
     // initialRouteName: 'AuthLoading',
-    initialRouteName: 'Login',
+    initialRouteName: 'stack2',
   }
 ));
 

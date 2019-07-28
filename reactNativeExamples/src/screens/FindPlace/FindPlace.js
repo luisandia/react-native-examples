@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native
 import { connect } from 'react-redux';
 import PlaceList from '../../components/PlaceList/PlaceList';
 import PlaceDetail from '../PlaceDetail/PlaceDetail';
-import { addPlace, deletePlace, selectPlace, deselectPlace } from '../../store/actions/index';
+import { addPlace, deletePlace, selectPlace, deselectPlace, getPlaces } from '../../store/actions/index';
 
 
 export class FindPlace extends Component {
@@ -22,23 +22,19 @@ export class FindPlace extends Component {
         //   { selectedPlace: prevState.places.find(place => place.key === key) }
         // ))
         console.log("EJECUTANADO SELECTED HANDLER")
-        this.props.onSelectPlace(key);
+        // this.props.onSelectPlace(key);
         // this.props.navigation.navigate('PlaceDetail');
         console.log("IMPRIMIENDO PROPS SELECTED HANDLER")
         console.log(this.props)
+        
         // console.log(this.props.selectedPlace)
         const selectedPlace = this.props.places.find(place => place.key === key)
         this.props.navigation.navigate('PlaceDetail', {
             selectedPlace
         });
     }
-    componentDidUpdate(prevProps, prevState, snapshot) {
 
-        console.log("jcomponente WILLUPDATE")
-        console.log(this.prevProps)
-        console.log(this.prevState)
-        console.log(this.snapshot)
-    }
+
     modalCloseHandler = () => {
         // this.setState({
         //   selectedPlace: null
@@ -58,6 +54,9 @@ export class FindPlace extends Component {
         this.props.onDeletePlace();
     }
 
+    componentDidMount() {
+        this.props.onLoadPlaces();
+    }
     placesSearchHandler = () => {
         Animated.timing(this.state.removeAnim, {
             toValue: 0,
@@ -162,7 +161,8 @@ const mapDispatchToProps = dispatch => {
         onAddPlace: (placeName) => dispatch(addPlace(placeName)),
         onDeletePlace: () => dispatch(deletePlace()),
         onSelectPlace: (key) => dispatch(selectPlace(key)),
-        onDeselectPlace: () => dispatch(deselectPlace())
+        onDeselectPlace: () => dispatch(deselectPlace()),
+        onLoadPlaces: () => dispatch(getPlaces())
     }
 }
 

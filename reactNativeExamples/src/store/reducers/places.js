@@ -1,4 +1,4 @@
-import { ADD_PLACE, DELETE_PLACE, SELECT_PLACE, DESELECT_PLACE } from "../actions/actionTypes";
+import { ADD_PLACE, DELETE_PLACE, SELECT_PLACE, DESELECT_PLACE, SET_PLACES } from "../actions/actionTypes";
 
 const initialState = {
     places: [],
@@ -12,18 +12,15 @@ const reducer = (state = initialState, action) => {
     console.log(action)
     switch (action.type) {
         case ADD_PLACE: {
+            debugger;
             return {
                 ...state,
                 places: [...state.places,
-                {
-                    key: Math.floor(Math.random() * 10000).toString(),
-                    value: action.placeName,
-                    image: { uri: action.image.uri,base64:action.image.base64 },
-                    location: action.location
-                }]
+                action.placeData]
             }
         }
         case DELETE_PLACE: {
+            debugger;
             return {
                 ...state,
                 places: state.places.filter((place) => {
@@ -32,17 +29,19 @@ const reducer = (state = initialState, action) => {
                 selectedPlace: null
             }
         }
-        case SELECT_PLACE: {
+        // case DELETE_PLACE: {
+        //     return {
+        //         ...state,
+        //         places: state.places.filter((place) => {
+        //             return place.key !== action.key;
+        //         }),
+        //         selectedPlace: null
+        //     }
+        // }
+        case SET_PLACES: {
             return {
                 ...state,
-                selectedPlace: state.places.find(place => place.key === action.key)
-            }
-
-        }
-        case DESELECT_PLACE: {
-            return {
-                ...state,
-                selectedPlace: null
+                places: action.places
             }
         }
         default:
