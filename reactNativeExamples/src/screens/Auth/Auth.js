@@ -8,7 +8,8 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  ActivityIndicator
 } from 'react-native';
 import DefaultInput from '../../components/UI/DefaultInput';
 
@@ -18,7 +19,7 @@ import ButtonWithBackground from '../../components/UI/ButtonWithBackground/Butto
 import MainText from '../../components/UI/MainText/MainText';
 import validate from '../../../utility/validation';
 import { connect } from 'react-redux';
-import { tryAuth } from '../../store/actions/index';
+import { tryAuth, authAutoSignIn } from '../../store/actions/index';
 
 class AuthScreen extends React.Component {
 
@@ -86,8 +87,9 @@ class AuthScreen extends React.Component {
       email: this.state.controls.email.value,
       password: this.state.controls.password.value
     }
-    this.props.onLogin(authData);
-    this.props.navigation.navigate('LoggedIn');
+    console.log(this.props)
+    this.props.onLogin(authData, this.state.authMode, this.props.navigation);
+    // this.props.navigation.navigate('LoggedIn');
   }
 
   updateInputState = (key, value) => {
@@ -141,10 +143,25 @@ class AuthScreen extends React.Component {
       !this.state.controls.password.valid);
   }
 
-
+  componentDidMount() {
+    this.props.onAutoSignIn(this.props.navigation);
+  }
   render() {
-    let headingText, passwordContainer, passwordWrapper;
+    const enabled = this.formValid();
+    let headingText = null;
     let confirmPasswordControl = null;
+    let submitButton = (
+      <ButtonWithBackground
+        color="#29aaf4"
+        onPress={this.loginHandler}
+        disabled={
+          enabled
+        }
+      >
+        Submit
+      </ButtonWithBackground>
+    );
+    let passwordContainer, passwordWrapper;
     console.log(Dimensions.get('window').height)
     if (this.state.viewMode === "portrait" || this.state.authMode === "login") {
       headingText = <MainText><HeadingText>Please Log in</HeadingText></MainText>
@@ -155,7 +172,6 @@ class AuthScreen extends React.Component {
       passwordWrapper = styles.landscapePasswordWrapper
     }
 
-    const enabled = this.formValid();
     if (this.state.authMode === "signup") {
       confirmPasswordControl = <View style={passwordWrapper}>
         <DefaultInput placeholder="Confirm Password" style={styles.input}
@@ -166,6 +182,9 @@ class AuthScreen extends React.Component {
           secureTextEntry
         />
       </View>
+    }
+    if (this.props.isLoading) {
+      submitButton = <ActivityIndicator />;
     }
     return (
       <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
@@ -197,7 +216,7 @@ class AuthScreen extends React.Component {
               </View>
             </View>
           </TouchableWithoutFeedback>
-          <ButtonWithBackground disabled={enabled} color="#29aaf4" onPress={this.loginHandler}> Submit</ButtonWithBackground>
+          {submitButton}
         </KeyboardAvoidingView>
       </ImageBackground>
     )
@@ -237,11 +256,13 @@ const styles = StyleSheet.create({
 
 
 });
+const mapStateToProps = ({ ui: isLoading }) => {
+  return isLoading;
+};
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onLogin: (authData) => dispatch(tryAuth(authData))
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  onLogin: (authData, authMode, navigation) => dispatch(tryAuth(authData, authMode, navigation)),
+  onAutoSignIn: (navigation) => dispatch(authAutoSignIn(navigation))
+})
 
-export default connect(null, mapDispatchToProps)(AuthScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);

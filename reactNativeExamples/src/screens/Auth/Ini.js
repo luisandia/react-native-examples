@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
 });
 
 const AppStack = createStackNavigator({ Home: HomeScreen, Other: OtherScreen });
-const AuthStack = createStackNavigator({ SignIn: SignInScreen });
+const AuthStack = createStackNavigator({ Login: AuthScreen });
 const DetailStack = createStackNavigator({ Home: FindPlace, PlaceDetail: PlaceDetailScreen });
 const DetailStack2 = createStackNavigator({ Home: MainTabs, PlaceDetail: PlaceDetailScreen });
 
@@ -138,7 +138,7 @@ export default createAppContainer(createSwitchNavigator(
   },
   {
     // initialRouteName: 'AuthLoading',
-    initialRouteName: 'stack2',
+    initialRouteName: 'Login',
   }
 ));
 

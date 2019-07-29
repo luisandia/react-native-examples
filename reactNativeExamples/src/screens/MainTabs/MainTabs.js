@@ -8,6 +8,7 @@ import PlaceDetail from '../PlaceDetail/PlaceDetail';
 import NavigationDrawerStructure from '../../components/Header/NavigationDrawerStructure';
 
 import CustomSidebarMenu from './_nav';
+import { Button } from 'react-native-elements';
 
 
 
@@ -29,7 +30,7 @@ export class Screen3 extends Component {
     render() {
         return (
             <View style={styles.MainContainer}>
-                <Text style={{ fontSize: 23 }}> Screen {global.currentScreenIndex + 1} </Text>
+                <Text style={{ fontSize: 23 }}> Logout {global.currentScreenIndex + 1} </Text>
             </View>
         );
     }
@@ -84,6 +85,7 @@ const DetailNavigator = createDrawerNavigator({
         contentComponent: CustomSidebarMenu,
         //Sidebar width
         drawerWidth: Dimensions.get('window').width - 130,
+
     }
 );
 
@@ -108,7 +110,7 @@ const MainTabs = createBottomTabNavigator({
         navigationOptions: {
             tabBarLabel: "Share Place",
             tabBarIcon: ({ tintColor }) => (
-                <Icon size={25} name={Platform.OS === 'android'?"md-share-alt":"ios-share-alt"} color={tintColor} />
+                <Icon size={25} name={Platform.OS === 'android' ? "md-share-alt" : "ios-share-alt"} color={tintColor} />
             ),
         }
     }
