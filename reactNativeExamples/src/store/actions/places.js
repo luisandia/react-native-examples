@@ -2,51 +2,6 @@ import { ADD_PLACE, DELETE_PLACE, DESELECT_PLACE, SELECT_PLACE, SET_PLACES } fro
 import { uiStartLoading, uiStopLoading, authGetToken } from "./index";
 
 
-// export const addPlace = (placeName, location, image) => {
-
-//     return dispatch => {
-
-//         dispatch(uiStartLoading());
-
-//         console.log("SUBIendo imagen")
-//         const placeData = {
-//             name: placeName,
-//             location
-//         }
-//         fetch("https://us-central1-react-native-shareplace-9762b.cloudfunctions.net/storeImage", {
-//             method: 'POST',
-//             body: JSON.stringify({
-//                 image: image.base64
-//             })
-//         }).catch(e => { console.log(e); alert("something went wrong,please try again"); dispatch(uiStopLoading()) })
-//             .then(res => res.json())
-//             .then(
-//                 parseRes => {
-//                     console.log(parseRes);
-
-//                     placeData.image = { uri: parseRes.imageUrl }
-
-//                     return fetch("https://react-native-shareplace-9762b.firebaseio.com/places.json", {
-//                         method: 'POST',
-//                         body: JSON.stringify(placeData)
-//                     })
-//                 }).catch(e => { console.log(e); alert("something went wrong,please try again"); dispatch(uiStopLoading()) })
-//             .then(res => res.json())
-//             .then(
-//                 res => {
-//                     console.log(res);
-//                     placeData.key = res.name;
-//                     dispatch({
-//                         type: ADD_PLACE,
-//                         placeData
-//                     });
-//                     dispatch(uiStopLoading());
-//                 });
-
-//     }
-// };
-
-
 export const addPlace = (placeName, location, image) => {
     return dispatch => {
         const placeData = {
@@ -79,9 +34,16 @@ export const addPlace = (placeName, location, image) => {
                 alert(`${err.message}, please try again!`);
                 dispatch(uiStopLoading());
             })
-            .then(res => res.json())
+            .then(res => {
+                if (res.ok)
+                    return res.json()
+                else {
+                    throw new Error();
+                }
+            })
             .then(res => {
                 placeData.image = { uri: res.imageUrl }
+                placeData.imagePath = res.imagePath
                 return fetch(
                     "https://react-native-shareplace-9762b.firebaseio.com/places.json?auth=" +
                     authToken,
@@ -91,7 +53,13 @@ export const addPlace = (placeName, location, image) => {
                     }
                 );
             })
-            .then(res => res.json())
+            .then(res => {
+                if (res.ok)
+                    return res.json()
+                else {
+                    throw new Error();
+                }
+            })
             .then(res => {
                 console.log(res);
                 placeData.key = res.name;

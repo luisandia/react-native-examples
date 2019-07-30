@@ -63,7 +63,30 @@ class SharePlace extends Component {
     placeAddedHandler = () => {
         if (this.state.placeName.trim() !== '') {
             this.props.onAddPlace(this.state.placeName, this.state.controls.location.value, this.state.controls.image.value);
+            this.reset();
+            this.imagePicker.reset();
+            this.locationPicker.reset();
         }
+    }
+
+
+    reset = () => {
+        this.setState(
+            {
+                placeName: "",
+                controls: {
+                    location: {
+                        value: null,
+                        valid: false
+                    },
+                    image: {
+                        value: null,
+                        valid: false
+                    }
+                },
+            }
+
+        );
     }
 
     render() {
@@ -79,8 +102,10 @@ class SharePlace extends Component {
                     <MainText>
                         <HeadingText style={{ color: "black" }}>Share a place with us </HeadingText>
                     </MainText>
-                    <PickImage onImagePicked={this.imagePickedHandler} />
-                    <PickLocation onLocationPick={this.locationPickedHandler} />
+                    <PickImage onImagePicked={this.imagePickedHandler}
+                        ref={ref => (this.imagePicker = ref)} />
+                    <PickLocation onLocationPick={this.locationPickedHandler}
+                        ref={ref => (this.locationPicker = ref)} />
                     <PlaceInput placeName={this.state.placeName} onChangeText={this.placeNameChangeHandler} />
                     <View style={styles.button}>
                         {submitButton}

@@ -15,6 +15,19 @@ export class PickLocation extends Component {
         },
         locationChosen: false
     }
+
+    reset() {
+        this.setState(
+            {
+                focusedLocation: {
+                    latitude: 37.78825,
+                    longitude: -122.4324,
+                    latitudeDelta: 0.015,
+                    longitudeDelta: Dimensions.get('window').width / Dimensions.get('window').height * 0.015,
+                },
+                locationChosen: false
+            })
+    }
     pickLocationHandler = (e) => {
         const coords = e.nativeEvent.coordinate;
         this.map.animateToRegion({ ...this.state.focusedLocation, latitude: coords.latitude, longitude: coords.longitude })
@@ -64,6 +77,7 @@ export class PickLocation extends Component {
                     <MapView
                         provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                         style={styles.map}
+                        region={!this.state.focusedLocation ? this.state.focusedLocation : null}
                         initialRegion={this.state.focusedLocation}
                         onPress={this.pickLocationHandler}
                         ref={ref => this.map = ref}
