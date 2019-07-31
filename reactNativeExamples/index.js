@@ -19,15 +19,3 @@ const StartApp = () => {
     )
 }
 AppRegistry.registerComponent(appName, () => StartApp);
-// Navigation.registerComponent(`reactNativeExamples.StartApp`, () => Auth);
-// Navigation.registerComponent(appName, () => require('./src/screens/Auth/Auth').default);
-
-// Navigation.events().registerAppLaunchedListener(() => {
-//     Navigation.setRoot({
-//       root: {
-//         component: {
-//           name: appName
-//         }
-//       },
-//     });
-//   });

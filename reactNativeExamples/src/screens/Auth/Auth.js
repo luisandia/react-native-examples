@@ -20,6 +20,7 @@ import MainText from '../../components/UI/MainText/MainText';
 import validate from '../../../utility/validation';
 import { connect } from 'react-redux';
 import { tryAuth, authAutoSignIn } from '../../store/actions/index';
+import SplashScreen from 'react-native-splash-screen'
 
 class AuthScreen extends React.Component {
 
@@ -144,6 +145,7 @@ class AuthScreen extends React.Component {
   }
 
   componentDidMount() {
+    SplashScreen.hide();
     this.props.onAutoSignIn(this.props.navigation);
   }
   render() {

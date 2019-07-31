@@ -13,6 +13,7 @@ import MainTabs from '../MainTabs/MainTabs';
 import PlaceDetailScreen from '../PlaceDetail/PlaceDetail';
 import placeList from '../../components/PlaceList/PlaceList';
 import { FindPlace } from '../FindPlace/FindPlace';
+import SplashScreen from '../SplashScreen';
 
 
 
@@ -129,16 +130,18 @@ export default createAppContainer(createSwitchNavigator(
     Login: AuthScreen,
     App: AppStack,
     Auth: AuthStack,
-    PlaceDetail: { screen: PlaceDetailScreen,
-    title: 'Find List',
-  },
-  stack2:DetailStack2,
-  // DetailScreen:DetailStack2,
-  LoggedIn: MainTabs
+    PlaceDetail: {
+      screen: PlaceDetailScreen,
+      title: 'Find List',
+    },
+    Splash: SplashScreen,
+    stack2: DetailStack2,
+    // DetailScreen:DetailStack2,
+    LoggedIn: MainTabs
   },
   {
     // initialRouteName: 'AuthLoading',
-    initialRouteName: 'Login',
+    initialRouteName: 'Splash',
   }
 ));
 
